@@ -210,10 +210,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
   ShowTopMostFoldoutHeaderGroup: 1
-  sens: 400
+  sens: 250
+  defaultFov: 95
   orientation: {fileID: 8670034867049928577}
   playerCam: {fileID: 6138014681701259360}
   audioListener: {fileID: 7895126863097577259}
+  player: {fileID: 4606031168448615415}
 --- !u!1 &5765120516957995281
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +288,7 @@ MonoBehaviour:
   SyncRotAngleY: 0
   SyncRotAngleZ: 0
   SyncScaleX: 0
-  SyncScaleY: 0
+  SyncScaleY: 1
   SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
@@ -355,18 +357,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 7
+  moveSpeed: 5.5
+  sprintSpeed: 7
+  sprinting: 0
+  canSprint: 1
   groundDrag: 5
-  jumpForce: 5
-  airMultiplier: 1
-  readyToJump: 0
-  orientation: {fileID: 8670034867049928577}
-  jumpKey: 32
+  jumpForce: 10
+  airMultiplier: 0.6
+  jumpCount: 0
+  extraAirJumps: 1
+  canJump: 1
+  playerObj: {fileID: 6080579650166416577}
+  camPos: {fileID: 7973847414565480114}
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
   grounded: 1
+  orientation: {fileID: 8670034867049928577}
+  rb: {fileID: 0}
 --- !u!1 &6080579650166416577
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,7 +474,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6080579650166416577}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5e3f235aa6865ad458f4e483589df4c4, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

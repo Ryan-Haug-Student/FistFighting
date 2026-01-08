@@ -1,14 +1,17 @@
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerCamera : NetworkBehaviour
 {
     public float sens;
+    public int defaultFov;
 
     public Transform orientation;
 
     public Camera playerCam;
     public AudioListener audioListener;
+    public PlayerMovement player;
 
     float xRotation;
     float yRotation;
@@ -33,6 +36,12 @@ public class PlayerCamera : NetworkBehaviour
     {
         if (!IsOwner) return;
 
+        LookControl();
+        FovControl();
+    }
+
+    private void LookControl()
+    {
         float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sens;
         float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sens;
 
@@ -42,6 +51,14 @@ public class PlayerCamera : NetworkBehaviour
         xRotation = Mathf.Clamp(xRotation, -90, 90);
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);   
+        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+    }
+
+    private void FovControl()
+    {
+        if (player.sprinting && player.rb.linearVelocity.magnitude > player.moveSpeed / 1.75f)
+            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov + 10, .1f);
+        else
+            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov, .1f);
     }
 }
