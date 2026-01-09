@@ -56,7 +56,7 @@ public class PlayerCamera : NetworkBehaviour
 
     private void FovControl()
     {
-        if (player.sprinting && player.rb.linearVelocity.magnitude > player.moveSpeed / 1.75f)
+        if (Input.GetKey(KeyCode.LeftShift))
             playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov + 10, .1f);
         else
             playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov, .1f);

@@ -7,13 +7,13 @@ public class PlayerMovement : NetworkBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
+
+    public float walkSpeed;
     public float sprintSpeed;
-    public bool sprinting;
-    public bool canSprint;
     public float groundDrag;
 
-    [Header("Jumping")]
 
+    [Header("Jumping")]
     public float jumpForce;
     public float airMultiplier;
     public int jumpCount;
@@ -35,7 +35,15 @@ public class PlayerMovement : NetworkBehaviour
     public Transform orientation;
     public Rigidbody rb;
 
-// Private vars=============================
+    public MovementState state;
+    public enum MovementState
+    {
+        walking,
+        sprinting,
+        air
+    }
+
+    // Private vars=============================
 
     float horizontalInput;
     float verticalInput;
@@ -58,16 +66,17 @@ public class PlayerMovement : NetworkBehaviour
     {
         Vector3 rayOrigin = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         grounded = Physics.Raycast(rayOrigin, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-        
+
         MyInput();
         SpeedControl();
+        StateHandler();
 
         if (grounded)
         {
             rb.linearDamping = groundDrag;
             jumpCount = 0;
         }
-        else 
+        else
             rb.linearDamping = 0;
     }
 
@@ -83,15 +92,27 @@ public class PlayerMovement : NetworkBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if(Input.GetKeyDown(KeyCode.Space) && jumpCount < extraAirJumps && canJump)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < extraAirJumps && canJump)
             Jump();
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-            Crouch();
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-            UnCrouch();
+    }
 
-            sprinting = Input.GetKey(KeyCode.LeftShift) && canSprint ? true : false;
+    private void StateHandler()
+    {
+        if (grounded && Input.GetKey(KeyCode.LeftShift))
+        {
+            moveSpeed = sprintSpeed;
+            state = MovementState.sprinting;
+        }
+        else if (grounded)
+        {
+            moveSpeed = walkSpeed;
+            state = MovementState.walking;
+        }
+        else
+        {
+            state = MovementState.air;
+        }
     }
 
     private void MovePlayer()
@@ -108,23 +129,11 @@ public class PlayerMovement : NetworkBehaviour
     {
         Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
 
-        if (!sprinting)
+        if (flatVel.magnitude > moveSpeed)
         {
-            if (flatVel.magnitude > moveSpeed)
-            {
-                Vector3 limitedVel = flatVel.normalized * moveSpeed;
-                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
-            }
+            Vector3 limitedVel = flatVel.normalized * moveSpeed;
+            rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
         }
-        else
-        {
-            if (flatVel.magnitude > sprintSpeed)
-            {
-                Vector3 limitedVel = flatVel.normalized * sprintSpeed;
-                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
-            }
-        }
-       
     }
 
     private void Jump()
@@ -139,23 +148,5 @@ public class PlayerMovement : NetworkBehaviour
     private void ResetJump()
     {
         canJump = true;
-    }
-
-    private void Crouch()
-    {
-        canSprint = false;
-
-        transform.position = new Vector3(transform.position.x, transform.position.y - .25f, transform.position.z);
-        playerObj.transform.localScale = new Vector3(1, .75f, 1);
-        camPos.localPosition = Vector3.up * 1.25f;
-
-    }
-    private void UnCrouch()
-    {
-        canSprint = true;
-
-        transform.position = new Vector3(transform.position.x, transform.position.y + .25f, transform.position.z);
-        playerObj.transform.localScale = Vector3.one;
-        camPos.localPosition = Vector3.up * 1.5f;
     }
 }

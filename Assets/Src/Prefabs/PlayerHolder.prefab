@@ -357,12 +357,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 5.5
+  moveSpeed: 0
+  walkSpeed: 5.5
   sprintSpeed: 7
-  sprinting: 0
-  canSprint: 1
-  groundDrag: 5
-  jumpForce: 10
+  groundDrag: 8
+  jumpForce: 12
   airMultiplier: 0.6
   jumpCount: 0
   extraAirJumps: 1
@@ -373,9 +372,10 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  grounded: 1
+  grounded: 0
   orientation: {fileID: 8670034867049928577}
-  rb: {fileID: 0}
+  rb: {fileID: 7065810906720383469}
+  state: 0
 --- !u!1 &6080579650166416577
 GameObject:
   m_ObjectHideFlags: 0
