@@ -56,7 +56,7 @@ public class PlayerCamera : NetworkBehaviour
 
     private void FovControl()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (player.state == PlayerMovement.MovementState.sprinting || player.state == PlayerMovement.MovementState.air && Input.GetKey(KeyCode.LeftShift))
             playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov + 10, .1f);
         else
             playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov, .1f);
