@@ -1,7 +1,8 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GrappleHook : MonoBehaviour
+public class GrappleHook : NetworkBehaviour
 {
     [Header("References")]
     public Transform camTransform;
@@ -23,6 +24,11 @@ public class GrappleHook : MonoBehaviour
     private SpringJoint spring;
     private Vector3 grapplePoint;
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) enabled = false;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -43,7 +49,7 @@ public class GrappleHook : MonoBehaviour
 
     void StartGrapple()
     {
-        if (spring != null) DestroyImmediate(spring);
+        if (spring != null) Destroy(spring);
 
         if (Physics.Raycast(camTransform.position, camTransform.forward,
             out RaycastHit hit, maxDistance, whatIsGround))
@@ -53,8 +59,9 @@ public class GrappleHook : MonoBehaviour
             spring = gameObject.AddComponent<SpringJoint>();
             spring.autoConfigureConnectedAnchor = false;
             spring.connectedAnchor = grapplePoint;
+            spring.anchor = Vector3.zero;
 
-            float distance = Vector3.Distance(transform.position, grapplePoint);
+            float distance = Vector3.Distance(playerRb.position, grapplePoint);
             distance = Mathf.Min(distance, maxDistance); // ensure it never exceeds maxDistance
             spring.maxDistance = distance * 0.8f;
             spring.minDistance = distance * 0.25f;
