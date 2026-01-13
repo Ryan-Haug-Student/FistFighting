@@ -1,9 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.Rendering;
 using TMPro;
-using UnityEngine.UI;
-
+using UnityEngine.UIElements;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -15,7 +13,7 @@ public class PlayerMovement : NetworkBehaviour
     public float groundDrag;
 
     public float grappleSpeed;
-
+    public MovementState state;
 
     [Header("Jumping")]
     public float jumpForce;
@@ -28,12 +26,7 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Crouching")]
     public float crouchSpeed;
     public float crouchScale;
-    float startScale;
-
-    [Header("Obj References")]
-    public GameObject playerObj;
-    public Transform camPos;
-    public TMP_Text speedText;
+    private float startScale;
 
     [Header("Ground Check")]
     public float maxSlopeAngle;
@@ -41,30 +34,32 @@ public class PlayerMovement : NetworkBehaviour
     public LayerMask whatIsGround;
     public bool grounded;
 
-    private RaycastHit slopeHit;
-    private bool exitingSlope;
-
-    [Header("Misc")]
+    [Header("Obj References")]
+    public GameObject playerObj;
+    public Transform camPos;
+    public TMP_Text speedText;
     public Transform orientation;
     public Rigidbody rb;
 
-    public MovementState state;
-    public enum MovementState
-    {
-        walking,
-        crouching,
-        sprinting,
-        grappling,
-        air
-    }
-
-    // Private vars=============================
+    //private misc
+    private RaycastHit slopeHit;
+    private bool exitingSlope;
 
     float horizontalInput;
     float verticalInput;
 
     Vector3 moveDirection;
 
+    public enum MovementState
+    {
+        none,
+        walking,
+        crouching,
+        sliding,
+        sprinting,
+        grappling,
+        air
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -88,7 +83,7 @@ public class PlayerMovement : NetworkBehaviour
         SpeedControl();
         StateHandler();
 
-        speedText.text = $"Speed - {Mathf.Round(rb.linearVelocity.magnitude * 100) / 100}";
+        speedText.text = $"Speed | {Mathf.Round(rb.linearVelocity.magnitude * 10) / 10} \nState   | {state}";
 
         if (grounded)
         {
@@ -123,7 +118,6 @@ public class PlayerMovement : NetworkBehaviour
         {
             transform.localScale = new Vector3(transform.localScale.x, startScale, transform.localScale.z);
         }
-            
 
     }
 
@@ -133,7 +127,7 @@ public class PlayerMovement : NetworkBehaviour
         bool sprintInput = Input.GetKey(KeyCode.LeftShift);
         bool grappleInput = Input.GetKey(KeyCode.Mouse1);
 
-        if (grappleInput)
+        if (grappleInput && gameObject.TryGetComponent<SpringJoint>(out SpringJoint sj))
             state = MovementState.grappling;
         else if (!grounded)
             state = MovementState.air;
@@ -141,8 +135,10 @@ public class PlayerMovement : NetworkBehaviour
             state = MovementState.crouching;
         else if (sprintInput)
             state = MovementState.sprinting;
-        else
+        else if (rb.linearVelocity.magnitude != 0)
             state = MovementState.walking;
+        else
+            state = MovementState.none;
 
         switch (state)
         {

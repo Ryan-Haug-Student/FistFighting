@@ -62,7 +62,7 @@ public class GrappleHook : NetworkBehaviour
             spring.anchor = Vector3.zero;
 
             float distance = Vector3.Distance(playerRb.position, grapplePoint);
-            distance = Mathf.Min(distance, maxDistance); // ensure it never exceeds maxDistance
+            distance = Mathf.Min(distance, maxDistance);
             spring.maxDistance = distance * 0.8f;
             spring.minDistance = distance * 0.25f;
 

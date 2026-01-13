@@ -58,6 +58,9 @@ public class PlayerCamera : NetworkBehaviour
     {
         if (player.state == PlayerMovement.MovementState.sprinting || player.state == PlayerMovement.MovementState.air && Input.GetKey(KeyCode.LeftShift))
             playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov + 10, .1f);
+
+        else if (player.state == PlayerMovement.MovementState.sliding)
+            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov + 25, .1f);
         else
             playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov, .1f);
     }
