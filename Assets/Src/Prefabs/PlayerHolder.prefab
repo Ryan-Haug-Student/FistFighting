@@ -541,7 +541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
   ShowTopMostFoldoutHeaderGroup: 1
-  sens: 250
+  sens: 400
   defaultFov: 95
   orientation: {fileID: 8670034867049928577}
   playerCam: {fileID: 6138014681701259360}
@@ -801,6 +801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff2c2f6f390da0419384a6efa03fdd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrappleHook
+  ShowTopMostFoldoutHeaderGroup: 1
   camTransform: {fileID: 4326041969665867322}
   grapplePointVisual: {fileID: 156276353426259874}
   lineRenderer: {fileID: 282699776005832678}
