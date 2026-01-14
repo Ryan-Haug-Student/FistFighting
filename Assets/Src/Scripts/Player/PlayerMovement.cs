@@ -50,7 +50,6 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Obj References")]
     public GameObject playerObj;
     public Transform camPos;
-    public TMP_Text speedText;
     public Transform orientation;
     public Rigidbody rb;
 
@@ -95,8 +94,6 @@ public class PlayerMovement : NetworkBehaviour
         MyInput();
         SpeedControl();
         StateHandler();
-
-        speedText.text = $"Speed | {Mathf.Round(rb.linearVelocity.magnitude * 10) / 10} \nState   | {state}";
 
         if (state == MovementState.sliding)
         {
@@ -206,7 +203,7 @@ public class PlayerMovement : NetworkBehaviour
             return;
         }
 
-        moveDirection = orientation.forward * verticalInput + orientation.right * (horizontalInput * .6f);
+        moveDirection = orientation.forward * verticalInput + orientation.right * (horizontalInput * .5f);
 
         if (OnSlope() && !exitingSlope)
         {
