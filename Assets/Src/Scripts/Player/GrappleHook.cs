@@ -30,34 +30,26 @@ public class GrappleHook : NetworkBehaviour
     void Update()
     {
         if (IsOwner)
-        {
-            HandleInput();
             UpdateOwnerLine();
-        }
         else
-        {
             UpdateOtherClientLine();
-        }
-
-        UpdateCrosshair();
     }
-
-    void HandleInput()
+    void UpdateOwnerLine()
     {
         if (Input.GetKeyDown(KeyCode.Mouse1))
             StartGrapple();
 
         if (Input.GetKeyUp(KeyCode.Mouse1))
             StopGrapple();
-    }
 
-    void UpdateOwnerLine()
-    {
         if (spring)
         {
             lineRenderer.SetPosition(0, grapplePointVisual.position);
             lineRenderer.SetPosition(1, grapplePoint);
         }
+
+        crosshair.color = Physics.Raycast(camTransform.position, camTransform.forward, maxDistance, whatIsGround) ?
+            Color.green : Color.red;
     }
 
     void UpdateOtherClientLine()
@@ -69,12 +61,6 @@ public class GrappleHook : NetworkBehaviour
         lineRenderer.enabled = true;
     }
 
-    void UpdateCrosshair()
-    {
-        crosshair.color = Physics.Raycast(camTransform.position, camTransform.forward, maxDistance, whatIsGround) ?
-            Color.green : Color.red;
-    }
-
     void StartGrapple()
     {
         if (spring != null) Destroy(spring);
@@ -84,7 +70,8 @@ public class GrappleHook : NetworkBehaviour
         {
             grapplePoint = hit.point;
 
-            spring = gameObject.AddComponent<SpringJoint>();
+            spring = gameObject.AddComponent<SpringJoint>()
+            ;
             spring.autoConfigureConnectedAnchor = false;
             spring.connectedAnchor = grapplePoint;
             spring.anchor = Vector3.zero;
@@ -92,7 +79,7 @@ public class GrappleHook : NetworkBehaviour
             float distance = Vector3.Distance(playerRb.position, grapplePoint);
             distance = Mathf.Min(distance, maxDistance);
             spring.maxDistance = distance * 0.8f;
-            spring.minDistance = distance * 0.25f;
+            spring.minDistance = 0;
 
             spring.spring = springForce;
             spring.damper = damper;
