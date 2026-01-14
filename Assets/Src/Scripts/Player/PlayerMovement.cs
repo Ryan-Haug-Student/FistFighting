@@ -2,6 +2,8 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -27,6 +29,17 @@ public class PlayerMovement : NetworkBehaviour
     public float crouchSpeed;
     public float crouchScale;
     private float startScale;
+
+    [Header("Sliding")]
+    public float slideMinSpeed;
+    public float slideForce;
+    public float slideDrag;
+    public float slideExitSpeed;
+
+    public float slideImpulse;
+    public float maxSlideSpeed;
+
+    bool slideJustStarted;
 
     [Header("Ground Check")]
     public float maxSlopeAngle;
@@ -85,13 +98,21 @@ public class PlayerMovement : NetworkBehaviour
 
         speedText.text = $"Speed | {Mathf.Round(rb.linearVelocity.magnitude * 10) / 10} \nState   | {state}";
 
-        if (grounded)
+        if (state == MovementState.sliding)
+        {
+            rb.linearDamping = slideDrag;
+            jumpCount = 0;
+        }
+        else if (grounded)
         {
             rb.linearDamping = groundDrag;
             jumpCount = 0;
         }
         else
             rb.linearDamping = 0;
+
+        if (state == MovementState.sliding && rb.linearVelocity.magnitude < slideExitSpeed)
+            state = MovementState.crouching;
     }
 
     private void FixedUpdate()
@@ -127,7 +148,14 @@ public class PlayerMovement : NetworkBehaviour
         bool sprintInput = Input.GetKey(KeyCode.LeftShift);
         bool grappleInput = Input.GetKey(KeyCode.Mouse1);
 
-        if (grappleInput && gameObject.TryGetComponent<SpringJoint>(out SpringJoint sj))
+        if (grounded && crouchInput && rb.linearVelocity.magnitude > slideMinSpeed)
+        {
+            if (state != MovementState.sliding)
+                slideJustStarted = true;
+
+            state = MovementState.sliding;
+        }
+        else if (grappleInput && gameObject.TryGetComponent<SpringJoint>(out SpringJoint sj))
             state = MovementState.grappling;
         else if (!grounded)
             state = MovementState.air;
@@ -161,6 +189,23 @@ public class PlayerMovement : NetworkBehaviour
 
     private void MovePlayer()
     {
+        if (state == MovementState.sliding)
+        {
+            if (slideJustStarted)
+            {
+                rb.AddForce(rb.linearVelocity.normalized * slideImpulse, ForceMode.Impulse);
+                slideJustStarted = false;
+            }
+
+            if (OnSlope())
+            {
+                Vector3 slopeDir = GetSlopeMoveDirection();
+                rb.AddForce(slopeDir * slideForce, ForceMode.Force);
+            }
+
+            return;
+        }
+
         moveDirection = orientation.forward * verticalInput + orientation.right * (horizontalInput * .6f);
 
         if (OnSlope() && !exitingSlope)
@@ -176,11 +221,22 @@ public class PlayerMovement : NetworkBehaviour
         else
             rb.AddForce(moveDirection.normalized * moveSpeed * airMultiplier * 10, ForceMode.Force);
 
-        rb.useGravity = !OnSlope();
+        rb.useGravity = !OnSlope() || state == MovementState.grappling;
     }
 
     private void SpeedControl()
     {
+        if (state == MovementState.sliding)
+        {
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+
+            if (flatVel.magnitude > maxSlideSpeed)
+            {
+                Vector3 limited = flatVel.normalized * maxSlideSpeed;
+                rb.linearVelocity = new Vector3(limited.x, rb.linearVelocity.y, limited.z);
+            }
+            return;
+        }
         if (OnSlope() && !exitingSlope)
         {
             if (rb.linearVelocity.magnitude > moveSpeed)

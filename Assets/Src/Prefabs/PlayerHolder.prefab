@@ -778,10 +778,12 @@ MonoBehaviour:
   canJump: 1
   crouchSpeed: 4.5
   crouchScale: 0.65
-  slideForce: 55
-  maxSlideSpeed: 20
-  slideDuration: 0.25
-  sliding: 0
+  slideMinSpeed: 6
+  slideForce: 200
+  slideDrag: 1.2
+  slideExitSpeed: 2
+  slideImpulse: 8
+  maxSlideSpeed: 13
   maxSlopeAngle: 40
   playerHeight: 2
   whatIsGround:
