@@ -11,7 +11,6 @@ public class GrappleHook : NetworkBehaviour
     public Rigidbody playerRb;
     public Image crosshair;
 
-
     [Header("Grapple Settings")]
     public float maxDistance;
     public LayerMask whatIsGround;
@@ -24,27 +23,56 @@ public class GrappleHook : NetworkBehaviour
     private SpringJoint spring;
     private Vector3 grapplePoint;
 
-    public override void OnNetworkSpawn()
-    {
-        if (!IsOwner) enabled = false;
-    }
+    // For networked clients
+    private bool isGrappling = false;
+    private Vector3 networkGrapplePoint;
 
     void Update()
+    {
+        if (IsOwner)
+        {
+            HandleInput();
+            UpdateOwnerLine();
+        }
+        else
+        {
+            UpdateOtherClientLine();
+        }
+
+        UpdateCrosshair();
+    }
+
+    void HandleInput()
     {
         if (Input.GetKeyDown(KeyCode.Mouse1))
             StartGrapple();
 
         if (Input.GetKeyUp(KeyCode.Mouse1))
             StopGrapple();
+    }
 
-        crosshair.color = Physics.Raycast(camTransform.position, camTransform.forward, maxDistance, whatIsGround) ?
-            Color.green : Color.red;
-
+    void UpdateOwnerLine()
+    {
         if (spring)
         {
             lineRenderer.SetPosition(0, grapplePointVisual.position);
             lineRenderer.SetPosition(1, grapplePoint);
         }
+    }
+
+    void UpdateOtherClientLine()
+    {
+        if (!isGrappling) return;
+
+        lineRenderer.SetPosition(0, grapplePointVisual.position);
+        lineRenderer.SetPosition(1, networkGrapplePoint);
+        lineRenderer.enabled = true;
+    }
+
+    void UpdateCrosshair()
+    {
+        crosshair.color = Physics.Raycast(camTransform.position, camTransform.forward, maxDistance, whatIsGround) ?
+            Color.green : Color.red;
     }
 
     void StartGrapple()
@@ -72,15 +100,42 @@ public class GrappleHook : NetworkBehaviour
 
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(1, grapplePoint);
+
+            // Notify other clients
+            StartGrappleServerRpc(grapplePoint);
         }
     }
 
     void StopGrapple()
     {
-        if (spring)
-            Destroy(spring);
+        if (spring) Destroy(spring);
 
         lineRenderer.enabled = false;
+
+        // Notify other clients
+        StopGrappleServerRpc(grapplePoint);
+    }
+
+    // Networking
+    [ServerRpc]
+    private void StartGrappleServerRpc(Vector3 point)
+    {
+        ToggleGrappleClientRpc(true, point);
+    }
+
+    [ServerRpc]
+    private void StopGrappleServerRpc(Vector3 point)
+    {
+        ToggleGrappleClientRpc(false, point);
+    }
+
+    [ClientRpc]
+    private void ToggleGrappleClientRpc(bool enabled, Vector3 point)
+    {
+        isGrappling = enabled;
+        networkGrapplePoint = point;
+
+        if (!enabled)
+            lineRenderer.enabled = false;
     }
 }
-
