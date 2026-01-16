@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Net;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -78,15 +77,20 @@ public class BaseWeapon : NetworkBehaviour
         dir += playerCam.transform.up * Random.Range(-actualDispersion, actualDispersion) * 0.01f;
         dir.Normalize();
 
-        Physics.Raycast(playerCam.transform.position, dir, out RaycastHit hit, 100f);
+        
 
-        StartCoroutine(DrawVisual(hit.point));
-
-        if (hit.collider == null) return;
-
-        if (((1 << hit.collider.gameObject.layer) & whatIsPlayer) != 0)
+        if (Physics.Raycast(playerCam.transform.position, dir, out RaycastHit hit, 100f))
         {
-            DamagePlayerServerRpc(hit.collider.gameObject);
+            DrawVisualServerRpc(hit.point);
+
+            if (((1 << hit.collider.gameObject.layer) & whatIsPlayer) != 0)
+            {
+                DamagePlayerServerRpc(hit.transform.gameObject.GetComponentInParent<Transform>().GetComponentInParent<NetworkObject>().NetworkObjectId);
+            }
+        }
+        else
+        {
+            DrawVisualServerRpc(playerCam.transform.forward * 100);
         }
 
         Invoke(nameof(ResetAction), actionRefilTime);
@@ -116,6 +120,32 @@ public class BaseWeapon : NetworkBehaviour
         isRefilling = false;
     }
 
+
+    [ServerRpc]
+    private void DamagePlayerServerRpc(ulong objId)
+    {
+        DamagePlayerClientRpc(objId, damage);
+    }
+
+    [ClientRpc]
+    private void DamagePlayerClientRpc(ulong targetReference, int damageAmount)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetReference, out NetworkObject networkObject))
+            networkObject.gameObject.GetComponentInChildren<PlayerHealth>().TryTakeDamage(damage);
+    }
+
+    [ServerRpc]
+    private void DrawVisualServerRpc(Vector3 endPoint)
+    {
+        DrawVisualClientRpc(endPoint);
+    }
+
+    [ClientRpc]
+    private void DrawVisualClientRpc(Vector3 endPoint)
+    {
+        StartCoroutine(DrawVisual(endPoint));
+    }
+
     private IEnumerator DrawVisual(Vector3 endPoint)
     {
         lr.enabled = true;
@@ -125,25 +155,5 @@ public class BaseWeapon : NetworkBehaviour
         yield return new WaitForSeconds(0.05f);
 
         lr.enabled = false;
-    }
-
-
-    [ServerRpc]
-    private void DamagePlayerServerRpc(NetworkObjectReference targetReference)
-    {
-        DamagePlayerClientRpc(targetReference, damage);
-    }
-
-    [ClientRpc]
-    private void DamagePlayerClientRpc(NetworkObjectReference targetReference, int damageAmount)
-    {
-        if (targetReference.TryGet(out NetworkObject targetNetworkObject))
-        {
-            PlayerHealth targetHealth = targetNetworkObject.GetComponent<PlayerHealth>();
-            if (targetHealth != null)
-            {
-                targetHealth.TryTakeDamage(damageAmount);
-            }
-        }
     }
 }
