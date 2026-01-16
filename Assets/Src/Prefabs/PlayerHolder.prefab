@@ -1108,9 +1108,12 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   isDead: 0
-  playerObj: {fileID: 0}
-  pm: {fileID: 0}
-  gh: {fileID: 0}
+  playerObj: {fileID: 6080579650166416577}
+  pm: {fileID: 4606031168448615415}
+  gh: {fileID: 5498987989849797982}
+  bw: {fileID: 1057629370240196242}
+  rb: {fileID: 7065810906720383469}
+  pc: {fileID: 5223607378077221537}
 --- !u!114 &1057629370240196242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1128,12 +1131,12 @@ MonoBehaviour:
   currentCount: 15
   refilTime: 2
   canAction: 1
-  actionRefilTime: 0.23
-  fullAuto: 0
+  actionRefilTime: 0.2
+  fullAuto: 1
   damage: 10
-  dispersion: 3
+  dispersion: 2
   actualDispersion: 0
-  movementMultiplier: 2
+  movementMultiplier: 1.5
   isRefilling: 0
   playerCam: {fileID: 6138014681701259360}
   handPos: {fileID: 156276353426259874}

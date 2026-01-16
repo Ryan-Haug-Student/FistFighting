@@ -81,13 +81,12 @@ public class PlayerMovement : NetworkBehaviour
 
         if (orientation == null)
             orientation = transform.Find("Orientation");
-
-        if (!IsOwner)
-            enabled = false;
     }
 
     private void Update()
     {
+        if (!IsOwner) return;
+
         Vector3 rayOrigin = new Vector3(playerObj.transform.position.x, playerObj.transform.position.y, playerObj.transform.position.z);
         grounded = Physics.Raycast(rayOrigin, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
@@ -114,6 +113,8 @@ public class PlayerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsOwner) return;
+
         MovePlayer();
     }
 
