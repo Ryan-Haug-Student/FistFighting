@@ -1,51 +1,47 @@
+using System.Net;
+using System.Net.Sockets;
 using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuButtons : MonoBehaviour
 {
-    public GameObject mainMenuHolder;
-    public GameObject connectionMenuHolder;
+    [Header("Refs")]
+    [SerializeField] private TMP_InputField clientIpInput;
 
-    public GameObject networkManager;
-
-    public TMP_InputField ipInput;
-    public TMP_InputField portInput;
-
-    public void PlayButtonPressed()
+    public void StartHost()
     {
-        mainMenuHolder.SetActive(false);
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(getLocalIp(), (ushort)7777);
 
-        connectionMenuHolder.SetActive(true);
+        NetworkManager.Singleton.StartHost();
+        NetworkManager.Singleton.SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
     }
 
-    public void BackButtonPressed()
+    public void StartClient()
     {
-        connectionMenuHolder.SetActive(false);
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(clientIpInput.text, (ushort)7777);
 
-        mainMenuHolder.SetActive(true);
+        NetworkManager.Singleton.StartClient();
     }
 
-    public void HostButtonClicked()
+    // Helper Funcs
+
+    private string getLocalIp()
     {
-        var transport = networkManager.GetComponent<UnityTransport>();
-        var manager = networkManager.GetComponent<NetworkManager>();
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                Debug.Log(ip.ToString());
+                return ip.ToString();
+            }
+        }
 
-        transport.SetConnectionData(ipInput.text, ushort.Parse(portInput.text));
-
-        manager.StartHost();
-        manager.SceneManager.LoadScene("TestScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
-    }
-
-    public void ClientButtonClicked()
-    {
-        var transport = networkManager.GetComponent<UnityTransport>();
-        var manager = networkManager.GetComponent<NetworkManager>();
-
-        transport.SetConnectionData(ipInput.text, ushort.Parse(portInput.text));
-
-        manager.StartClient();
+        Debug.Log("No local Ip found?");
+        return "";
     }
 }
