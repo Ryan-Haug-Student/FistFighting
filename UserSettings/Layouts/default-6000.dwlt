@@ -272,8 +272,8 @@ MonoBehaviour:
     y: 0
     width: 471
     height: 933
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 43
+    y: 0
     width: 1920
     height: 36
   m_SerializedDataModeController:
@@ -567,8 +567,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1449
-    y: 79
+    x: 1450
+    y: 24
     width: 470
     height: 907
   m_SerializedDataModeController:
@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.089576386, y: 0.025313605, z: -0.001949199, w: 0.99569607}
     speed: 2
-    m_Value: {x: 0.08957284, y: 0.025312603, z: -0.0019491218, w: 0.99565667}
+    m_Value: {x: -0.089576386, y: -0.025313605, z: 0.0019491991, w: -0.9956961}
   m_Size:
     m_Target: 65.02109
     speed: 2
@@ -1218,7 +1218,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 79
+    y: 24
     width: 1448
     height: 614
   m_SerializedDataModeController:
@@ -1321,7 +1321,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 719
+    y: 24
     width: 377
     height: 267
   m_SerializedDataModeController:
@@ -1438,8 +1438,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 378
-    y: 719
+    x: 379
+    y: 24
     width: 1069
     height: 267
   m_SerializedDataModeController:
@@ -1490,10 +1490,8 @@ MonoBehaviour:
       m_Data: 51844
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 51712
-    - m_Data: 51714
-    - m_Data: 51828
-    - m_Data: 1000000000
+    - m_Data: 51718
+    - m_Data: 51720
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1526,8 +1524,8 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 51712
-    - m_Data: 51714
+    - m_Data: 51718
+    - m_Data: 51720
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

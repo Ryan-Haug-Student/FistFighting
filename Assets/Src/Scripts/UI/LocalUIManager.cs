@@ -9,7 +9,7 @@ public class LocalUIManager : NetworkBehaviour
     public TMP_Text healthText;
     public TMP_Text consText;
 
-    public PlayerMovement pm;
+    public Movement pm;
     public PlayerHealth ph;
     public BaseWeapon bh;
 

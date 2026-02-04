@@ -11,7 +11,7 @@ public class PlayerCamera : NetworkBehaviour
 
     public Camera playerCam;
     public AudioListener audioListener;
-    public PlayerMovement player;
+    public Movement player;
 
     float xRotation;
     float yRotation;
@@ -56,11 +56,11 @@ public class PlayerCamera : NetworkBehaviour
 
     private void FovControl()
     {
-        if (player.state == PlayerMovement.MovementState.sprinting || player.state == PlayerMovement.MovementState.air && Input.GetKey(KeyCode.LeftShift))
+        if (player.state == Movement.MS.sprinting || player.state == Movement.MS.air && Input.GetKey(KeyCode.LeftShift))
             playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov + 10, .1f);
 
-        else if (player.state == PlayerMovement.MovementState.sliding)
-            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov + 25, .1f);
+        else if (player.state == Movement.MS.sliding)
+            playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov + 15, .1f);
         else
             playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, defaultFov, .1f);
     }

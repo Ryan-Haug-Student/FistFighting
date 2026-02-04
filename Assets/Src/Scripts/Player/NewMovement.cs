@@ -1,8 +1,5 @@
-using System.Runtime.ExceptionServices;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Rendering;
-using static PlayerMovement;
 
 public class Movement : NetworkBehaviour
 {
@@ -121,20 +118,19 @@ public class Movement : NetworkBehaviour
     {
         moveSpeed = state switch
         {
-            MS.air => sprintSpeed * 1.2f,
             MS.walking => walkSpeed,
             MS.sliding => slideSpeed,
             MS.sprinting => sprintSpeed,
             MS.crouching => crouchSpeed,
             MS.grappling => grappleSpeed,
 
-            _ => 10
+            _ => moveSpeed,
         };
 
         //set drag to slide drag if sliding, or add ground drag if grounded
         rb.linearDamping =
             state == MS.sliding ? slideDrag :
-            grounded ? groundDrag : 0;
+            grounded ? groundDrag : 0f;
 
         // add an extra speed check for sliding to ensure its smooth
         if (state == MS.sliding && rb.linearVelocity.magnitude < minSlideSpeed)

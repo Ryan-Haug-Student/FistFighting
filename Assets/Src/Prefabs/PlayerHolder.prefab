@@ -124,7 +124,7 @@ MonoBehaviour:
   stateText: {fileID: 4164735020188548345}
   healthText: {fileID: 6878949055988473001}
   consText: {fileID: 3297534972328690090}
-  pm: {fileID: 4606031168448615415}
+  pm: {fileID: 8260941788798641865}
   ph: {fileID: 4870810734999813740}
   bh: {fileID: 1057629370240196242}
 --- !u!1 &830480009230306866
@@ -707,7 +707,7 @@ MonoBehaviour:
   orientation: {fileID: 8670034867049928577}
   playerCam: {fileID: 6138014681701259360}
   audioListener: {fileID: 7895126863097577259}
-  player: {fileID: 4606031168448615415}
+  player: {fileID: 8260941788798641865}
 --- !u!1 &4979664433966307582
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,10 +935,10 @@ MonoBehaviour:
   crouchSpeed: 4
   slideSpeed: 12
   grappleSpeed: 15
-  groundDrag: 8
+  groundDrag: 6
   state: 0
   jumpForce: 12
-  airMultiplier: 0.6
+  airMultiplier: 0.4
   jumpCount: 0
   maxJumpCount: 2
   canJump: 1
