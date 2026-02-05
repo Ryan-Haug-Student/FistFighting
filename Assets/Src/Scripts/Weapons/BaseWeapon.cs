@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class BaseWeapon : NetworkBehaviour
+public abstract class BaseWeapon : NetworkBehaviour
 {
     [Header("Consumables")]
     public int maxCount;
@@ -17,6 +17,7 @@ public class BaseWeapon : NetworkBehaviour
 
     [Header("general stats")]
     public int damage;
+    public int maxFireDist;
 
     [Header("handling")]
     public float dispersion;
@@ -31,6 +32,11 @@ public class BaseWeapon : NetworkBehaviour
     public LayerMask whatIsPlayer;
     public Movement pm;
     public LineRenderer lr;
+
+    private void Start()
+    {
+        currentCount = maxCount;
+    }
 
     private void Update()
     {
@@ -79,7 +85,7 @@ public class BaseWeapon : NetworkBehaviour
 
         
 
-        if (Physics.Raycast(playerCam.transform.position, dir, out RaycastHit hit, 100f))
+        if (Physics.Raycast(playerCam.transform.position, dir, out RaycastHit hit, maxFireDist))
         {
             DrawVisualServerRpc(hit.point);
 
@@ -90,7 +96,7 @@ public class BaseWeapon : NetworkBehaviour
         }
         else
         {
-            hit.point = playerCam.transform.position + dir * 100;
+            hit.point = playerCam.transform.position + dir * maxFireDist;
             DrawVisualServerRpc(hit.point);
         }
 

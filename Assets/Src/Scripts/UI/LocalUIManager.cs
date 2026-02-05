@@ -11,7 +11,7 @@ public class LocalUIManager : NetworkBehaviour
 
     public Movement pm;
     public PlayerHealth ph;
-    public BaseWeapon bh;
+    public WeaponManager wm;
 
     public override void OnNetworkSpawn()
     {
@@ -27,6 +27,6 @@ public class LocalUIManager : NetworkBehaviour
         speedText.text = $"Speed | {Mathf.Round(pm.rb.linearVelocity.magnitude * 10) /10}";
         stateText.text = $"State   | {pm.state}";
         healthText.text = $"Health | {ph.currentHealth}/{ph.maxHealth}";
-        consText.text = $"Consumables | {bh.currentCount}/{bh.maxCount}";
+        consText.text = $"Consumables | {wm.weapon.currentCount}/{wm.weapon.maxCount}";
     }
 }

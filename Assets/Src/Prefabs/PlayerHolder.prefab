@@ -126,7 +126,7 @@ MonoBehaviour:
   consText: {fileID: 3297534972328690090}
   pm: {fileID: 8260941788798641865}
   ph: {fileID: 4870810734999813740}
-  bh: {fileID: 1057629370240196242}
+  wm: {fileID: 2863954828408054971}
 --- !u!1 &830480009230306866
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3609627484
+  GlobalObjectIdHash: 1299227680
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -800,7 +800,10 @@ GameObject:
   - component: {fileID: 5498987989849797982}
   - component: {fileID: 282699776005832678}
   - component: {fileID: 4870810734999813740}
-  - component: {fileID: 1057629370240196242}
+  - component: {fileID: 2863954828408054971}
+  - component: {fileID: 5277477367768286173}
+  - component: {fileID: 2466424775364428984}
+  - component: {fileID: 5720480364502546791}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -1101,8 +1104,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.23529413, g: 0.23529413, b: 0.23529413, a: 1}
-      key1: {r: 0.23529413, g: 0.23529413, b: 0.23529413, a: 1}
+      key0: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 0.5019608}
+      key1: {r: 0.5803922, g: 0.5803922, b: 0.5803922, a: 0.5019608}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1158,10 +1161,10 @@ MonoBehaviour:
   playerObj: {fileID: 6080579650166416577}
   pm: {fileID: 4606031168448615415}
   gh: {fileID: 5498987989849797982}
-  bw: {fileID: 1057629370240196242}
+  bw: {fileID: 0}
   rb: {fileID: 7065810906720383469}
   pc: {fileID: 5223607378077221537}
---- !u!114 &1057629370240196242
+--- !u!114 &2863954828408054971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1170,18 +1173,100 @@ MonoBehaviour:
   m_GameObject: {fileID: 5765120516957995281}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04885affa0f8a1e43a335a5b5d59ed89, type: 3}
+  m_Script: {fileID: 11500000, guid: a0fb8547864aeff4cb6d56d9e4429ef1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseWeapon
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponManager
+  equiped:
+  - {fileID: 5277477367768286173}
+  - {fileID: 2466424775364428984}
+  - {fileID: 5720480364502546791}
+  weapon: {fileID: 0}
+--- !u!114 &5277477367768286173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5765120516957995281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6303f90633fd1784e9311bf8699b3235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Melee
   ShowTopMostFoldoutHeaderGroup: 1
-  maxCount: 15
-  currentCount: 15
-  refilTime: 2
+  maxCount: 20000000
+  currentCount: 20000000
+  refilTime: 0
   canAction: 1
-  actionRefilTime: 0.2
+  actionRefilTime: 0.05
+  fullAuto: 0
+  damage: 50
+  maxFireDist: 3
+  dispersion: 0
+  actualDispersion: 0
+  movementMultiplier: 0
+  isRefilling: 0
+  playerCam: {fileID: 6138014681701259360}
+  handPos: {fileID: 156276353426259874}
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  pm: {fileID: 8260941788798641865}
+  lr: {fileID: 282699776005832678}
+--- !u!114 &2466424775364428984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5765120516957995281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fe975e6e5fbf1f44989bc50bd5542cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SideArm
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxCount: 12
+  currentCount: 0
+  refilTime: 1.5
+  canAction: 1
+  actionRefilTime: 0.4
+  fullAuto: 0
+  damage: 25
+  maxFireDist: 100
+  dispersion: 1
+  actualDispersion: 0
+  movementMultiplier: 2
+  isRefilling: 0
+  playerCam: {fileID: 6138014681701259360}
+  handPos: {fileID: 156276353426259874}
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  pm: {fileID: 8260941788798641865}
+  lr: {fileID: 282699776005832678}
+--- !u!114 &5720480364502546791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5765120516957995281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5c67309fc5edf2409a947aa105f9889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rifle
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxCount: 30
+  currentCount: 0
+  refilTime: 3
+  canAction: 1
+  actionRefilTime: 0.15
   fullAuto: 1
   damage: 10
-  dispersion: 2
+  maxFireDist: 100
+  dispersion: 1.5
   actualDispersion: 0
   movementMultiplier: 1.5
   isRefilling: 0
@@ -1191,7 +1276,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   pm: {fileID: 8260941788798641865}
-  lr: {fileID: 6154989732541487710}
+  lr: {fileID: 282699776005832678}
 --- !u!1 &5882916750503836847
 GameObject:
   m_ObjectHideFlags: 0
