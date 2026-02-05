@@ -33,7 +33,7 @@ public class Movement : NetworkBehaviour
 
     [Header("Obj Refs")]
     public Rigidbody rb;
-    public Transform playerObj, camPos, orientation;
+    public Transform playerObj, orientation;
 
     [Header("Keybinds")]
     public bool placeHolder;
@@ -173,7 +173,7 @@ public class Movement : NetworkBehaviour
         if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
-            rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z); ;
+            rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
         }
 
         rb.useGravity = !(OnSlope() && state != MS.grappling);

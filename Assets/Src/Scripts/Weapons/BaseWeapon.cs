@@ -29,7 +29,7 @@ public class BaseWeapon : NetworkBehaviour
     public Camera playerCam;
     public Transform handPos;
     public LayerMask whatIsPlayer;
-    public PlayerMovement pm;
+    public Movement pm;
     public LineRenderer lr;
 
     private void Update()
@@ -62,7 +62,7 @@ public class BaseWeapon : NetworkBehaviour
 
     private void ApplyDispersion()
     {
-        float movementFactor = pm.state != PlayerMovement.MovementState.none && pm.state != PlayerMovement.MovementState.crouching
+        float movementFactor = pm.state != Movement.MS.idle && pm.state != Movement.MS.crouching
             ? movementMultiplier : 1f;
 
         actualDispersion = dispersion * movementFactor;
@@ -90,7 +90,8 @@ public class BaseWeapon : NetworkBehaviour
         }
         else
         {
-            DrawVisualServerRpc(playerCam.transform.forward * 100);
+            hit.point = playerCam.transform.position + dir * 100;
+            DrawVisualServerRpc(hit.point);
         }
 
         Invoke(nameof(ResetAction), actionRefilTime);

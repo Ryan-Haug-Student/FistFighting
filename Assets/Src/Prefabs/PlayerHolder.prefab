@@ -956,7 +956,6 @@ MonoBehaviour:
     m_Bits: 8
   rb: {fileID: 7065810906720383469}
   playerObj: {fileID: 4291305567407117726}
-  camPos: {fileID: 7973847414565480114}
   orientation: {fileID: 8670034867049928577}
   placeHolder: 0
   jumpBind: 32
@@ -1191,7 +1190,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  pm: {fileID: 4606031168448615415}
+  pm: {fileID: 8260941788798641865}
   lr: {fileID: 6154989732541487710}
 --- !u!1 &5882916750503836847
 GameObject:
