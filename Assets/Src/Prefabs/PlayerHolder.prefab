@@ -796,7 +796,6 @@ GameObject:
   - component: {fileID: 7065810906720383469}
   - component: {fileID: 1333827886134886683}
   - component: {fileID: 8260941788798641865}
-  - component: {fileID: 4606031168448615415}
   - component: {fileID: 5498987989849797982}
   - component: {fileID: 282699776005832678}
   - component: {fileID: 4870810734999813740}
@@ -965,48 +964,6 @@ MonoBehaviour:
   grappleBind: 324
   crouchBind: 306
   sprintBind: 304
---- !u!114 &4606031168448615415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5765120516957995281}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2357f64b6e3f87f4fb83e8f46d2a8cf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 0
-  walkSpeed: 5.5
-  sprintSpeed: 7
-  groundDrag: 8
-  grappleSpeed: 14
-  state: 0
-  jumpForce: 12
-  airMultiplier: 0.4
-  jumpCount: 0
-  extraAirJumps: 1
-  canJump: 1
-  crouchSpeed: 4.5
-  crouchScale: 0.65
-  slideMinSpeed: 6
-  slideForce: 200
-  slideDrag: 1.2
-  slideExitSpeed: 2
-  slideImpulse: 8
-  maxSlideSpeed: 13
-  maxSlopeAngle: 40
-  playerHeight: 2
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 8
-  grounded: 0
-  playerObj: {fileID: 6080579650166416577}
-  camPos: {fileID: 7973847414565480114}
-  orientation: {fileID: 8670034867049928577}
-  rb: {fileID: 7065810906720383469}
 --- !u!114 &5498987989849797982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1022,7 +979,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   camTransform: {fileID: 4326041969665867322}
   grapplePointVisual: {fileID: 156276353426259874}
-  lineRenderer: {fileID: 282699776005832678}
+  lineRenderer: {fileID: 6154989732541487710}
   playerRb: {fileID: 7065810906720383469}
   crosshair: {fileID: 4172459731384921061}
   maxDistance: 12
@@ -1105,8 +1062,8 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 0.5019608}
-      key1: {r: 0.5803922, g: 0.5803922, b: 0.5803922, a: 0.5019608}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key1: {r: 0.5803922, g: 0.5803922, b: 0.5803922, a: 0.827451}
+      key2: {r: 0, g: 0, b: 0, a: 0.91764706}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -1121,8 +1078,8 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 964
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -1131,7 +1088,7 @@ LineRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -1159,7 +1116,7 @@ MonoBehaviour:
   currentHealth: 0
   isDead: 0
   playerObj: {fileID: 6080579650166416577}
-  pm: {fileID: 4606031168448615415}
+  pm: {fileID: 0}
   gh: {fileID: 5498987989849797982}
   bw: {fileID: 0}
   rb: {fileID: 7065810906720383469}
@@ -1194,17 +1151,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Melee
   ShowTopMostFoldoutHeaderGroup: 1
-  maxCount: 20000000
-  currentCount: 20000000
-  refilTime: 0
+  maxCount: 10000
+  currentCount: 1000
+  refilTime: 0.1
   canAction: 1
-  actionRefilTime: 0.05
+  actionRefilTime: 0.1
   fullAuto: 0
   damage: 50
   maxFireDist: 3
-  dispersion: 0
+  dispersion: 1
   actualDispersion: 0
-  movementMultiplier: 0
+  movementMultiplier: 1
   isRefilling: 0
   playerCam: {fileID: 6138014681701259360}
   handPos: {fileID: 156276353426259874}
@@ -1588,8 +1545,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.0026664734
-        value: 0.035707474
+        time: 0
+        value: 0.11308479
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1601,8 +1558,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.6313726, g: 0.6313726, b: 0.6313726, a: 0.78431374}
-      key1: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 0.78431374}
+      key0: {r: 0.23529413, g: 0.23529413, b: 0.23529413, a: 1}
+      key1: {r: 0.23529413, g: 0.23529413, b: 0.23529413, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

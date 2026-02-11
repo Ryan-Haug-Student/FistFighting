@@ -42,7 +42,7 @@ public abstract class BaseWeapon : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (fullAuto)
+        if (fullAuto )
             if (Input.GetKey(KeyCode.Mouse0))
                 TryFiring();
             else { }
@@ -58,8 +58,10 @@ public abstract class BaseWeapon : NetworkBehaviour
     {
         if (!canAction || isRefilling || currentCount <= 0)
             return;
+        else if (currentCount <= 0)
+            TryRefill();
 
-        currentCount--;
+            currentCount--;
         canAction = false;
 
         ApplyDispersion();
