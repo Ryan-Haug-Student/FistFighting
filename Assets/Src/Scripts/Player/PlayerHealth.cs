@@ -8,9 +8,9 @@ public class PlayerHealth : NetworkBehaviour
     public bool isDead;
 
     public GameObject playerObj;
-    public PlayerMovement pm;
+    public Movement pm;
     public GrappleHook gh;
-    public BaseWeapon bw;
+    public WeaponManager wm;
     public Rigidbody rb;
     public PlayerCamera pc;
 
@@ -59,7 +59,7 @@ public class PlayerHealth : NetworkBehaviour
 
         playerObj.SetActive(false);
         gh.enabled = false;
-        bw.enabled = false;
+        wm.weapon.enabled = false;
         pc.enabled = false;
 
         rb.useGravity = false;
@@ -70,14 +70,14 @@ public class PlayerHealth : NetworkBehaviour
     {
         isDead = false;
         currentHealth = maxHealth;
-        bw.currentCount = bw.maxCount;
+        wm.weapon.currentCount = wm.weapon.maxCount;
 
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
 
         playerObj.SetActive(true);
         gh.enabled = true;
-        bw.enabled = true;
+        wm.weapon.enabled = true;
         pc.enabled = true;
         rb.useGravity = true;
 

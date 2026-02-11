@@ -9,6 +9,7 @@ public class LocalUIManager : NetworkBehaviour
     public TMP_Text stateText;
     public TMP_Text healthText;
     public TMP_Text consText;
+    public TMP_Text sensText;
     public Slider slider;
 
     public GameObject pauseMenu;
@@ -26,7 +27,9 @@ public class LocalUIManager : NetworkBehaviour
         if (canvas)
             canvas.SetActive(false);
 
-
+        slider.value = pc.sens / 1000;
+        sensText.text = $"{pc.sens / 1000}";
+        
     }
 
     private void Update()
@@ -52,6 +55,7 @@ public class LocalUIManager : NetworkBehaviour
     public void UpdateSens()
     {
         pc.sens = slider.value * 1000;
+        sensText.text = $"{Mathf.Round(slider.value * 10000) / 100}";
     }
 
     public void TogglePauseMenu()
@@ -61,6 +65,7 @@ public class LocalUIManager : NetworkBehaviour
             pauseMenu.SetActive(true);
 
             pc.enabled = false;
+            wm.weapon.enabled = false;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
         }
@@ -69,8 +74,10 @@ public class LocalUIManager : NetworkBehaviour
             pauseMenu.SetActive(false);
 
             pc.enabled = true;
-            Cursor.lockState = CursorLockMode.Locked;
+            wm.weapon.enabled = false;
+            Cursor.lockState = CursorLockMode.None;
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }

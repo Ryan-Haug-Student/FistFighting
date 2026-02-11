@@ -125,6 +125,7 @@ MonoBehaviour:
   stateText: {fileID: 4164735020188548345}
   healthText: {fileID: 6878949055988473001}
   consText: {fileID: 3297534972328690090}
+  sensText: {fileID: 8880262851012819244}
   slider: {fileID: 2816562800856030238}
   pauseMenu: {fileID: 2387768768114996894}
   pm: {fileID: 8260941788798641865}
@@ -675,7 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3609627484
+  GlobalObjectIdHash: 1299227680
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -808,7 +809,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7911680835732579113}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 771048496849871520}
+        m_TargetAssemblyTypeName: LocalUIManager, Assembly-CSharp
+        m_MethodName: TogglePauseMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1448071727483502157
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,7 +875,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4016525124859994634
 RectTransform:
   m_ObjectHideFlags: 0
@@ -958,7 +971,7 @@ RectTransform:
   m_Father: {fileID: 8269342695741886494}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2203,9 +2216,9 @@ MonoBehaviour:
   currentHealth: 0
   isDead: 0
   playerObj: {fileID: 6080579650166416577}
-  pm: {fileID: 0}
+  pm: {fileID: 8260941788798641865}
   gh: {fileID: 5498987989849797982}
-  bw: {fileID: 0}
+  wm: {fileID: 2863954828408054971}
   rb: {fileID: 7065810906720383469}
   pc: {fileID: 5223607378077221537}
 --- !u!114 &2863954828408054971
@@ -2838,7 +2851,7 @@ RectTransform:
   m_Father: {fileID: 6085012443059240877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
