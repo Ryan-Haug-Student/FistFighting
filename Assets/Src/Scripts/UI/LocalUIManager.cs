@@ -55,7 +55,7 @@ public class LocalUIManager : NetworkBehaviour
     public void UpdateSens()
     {
         pc.sens = slider.value * 1000;
-        sensText.text = $"{Mathf.Round(slider.value * 10000) / 100}";
+        sensText.text = $"Sensitivity - {Mathf.Round(slider.value * 10000) / 100}";
     }
 
     public void TogglePauseMenu()
