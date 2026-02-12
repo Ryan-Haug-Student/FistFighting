@@ -17,6 +17,7 @@ public class PlayerHealth : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         currentHealth = maxHealth;
+        RespawnServerRpc();
     }
 
     private void Update()
@@ -72,8 +73,7 @@ public class PlayerHealth : NetworkBehaviour
         currentHealth = maxHealth;
         wm.weapon.currentCount = wm.weapon.maxCount;
 
-        transform.position = Vector3.zero;
-        transform.rotation = Quaternion.identity;
+        transform.position = GameManager.i.GetSpawnPoint().position;
 
         playerObj.SetActive(true);
         gh.enabled = true;
