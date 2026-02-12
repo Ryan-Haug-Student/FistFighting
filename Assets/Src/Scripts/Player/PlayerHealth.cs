@@ -73,7 +73,7 @@ public class PlayerHealth : NetworkBehaviour
         currentHealth = maxHealth;
         wm.weapon.currentCount = wm.weapon.maxCount;
 
-        transform.position = GameManager.i.GetSpawnPoint().position;
+        transform.position = GameManager.GetSpawnPoint().position;
 
         playerObj.SetActive(true);
         gh.enabled = true;
