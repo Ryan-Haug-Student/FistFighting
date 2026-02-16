@@ -17,7 +17,7 @@ public class MainMenuButtons : MonoBehaviour
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(getLocalIp(), (ushort)7777);
 
         NetworkManager.Singleton.StartHost();
-        NetworkManager.Singleton.SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
     }
 
     public void StartClient()
