@@ -1,5 +1,4 @@
 using Unity.Netcode;
-using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,23 +13,19 @@ public class Player : NetworkBehaviour
     public Rifle rif;
     public GameObject ui;
 
-
-    private bool activeated = false;
-
     public override void OnNetworkSpawn()
     {
+        SceneManager.sceneLoaded += SceneChange;
     }
 
-    private void Update()
+    void SceneChange(Scene arg1, LoadSceneMode arg2)
     {
-        if (!IsOwner) return;
-        //if (!IsHost) return;
+        if (!IsOwner) return; 
 
-        if (SceneManager.GetActiveScene().name == "TestScene" && activeated == false)
-        {
+        if (arg1.name == "Lobby")
+            InactiveServerRpc();
+        else
             ActiveServerRpc();
-            activeated = true;
-        }
     }
 
     [ServerRpc]
@@ -51,5 +46,25 @@ public class Player : NetworkBehaviour
         sidearm.enabled = true;
         rif.enabled = true;
         ui.SetActive(true);
+    }
+
+    [ServerRpc]
+    void InactiveServerRpc()
+    {
+        InactiveClientRpc();
+    }
+
+    [ClientRpc]
+    void InactiveClientRpc()
+    {
+        if (!IsOwner) return;
+
+        move.enabled = false;
+        hook.enabled = false;
+        mana.enabled = false;
+        mele.enabled = false;
+        sidearm.enabled = false;
+        rif.enabled = false;
+        ui.SetActive(false);
     }
 }

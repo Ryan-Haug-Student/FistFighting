@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GrappleHook : NetworkBehaviour
@@ -26,6 +27,11 @@ public class GrappleHook : NetworkBehaviour
     // For networked clients
     private bool isGrappling = false;
     private Vector3 networkGrapplePoint;
+
+    private void Start()
+    {
+        SceneManager.activeSceneChanged += (Scene a, Scene b) => StopGrapple();
+    }
 
     void Update()
     {

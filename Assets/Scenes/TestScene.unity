@@ -328,15 +328,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManagerr
   ShowTopMostFoldoutHeaderGroup: 1
-  duration: 10
+  duration: 20
   maxScore: 25
-  spawnPoints:
-  - {fileID: 915489965}
-  - {fileID: 2146398282}
-  - {fileID: 1272395476}
-  - {fileID: 635597276}
-  - {fileID: 1356016789}
-  - {fileID: 1053907876}
+  secondsLeft:
+    m_InternalValue: 0
 --- !u!4 &13342478
 Transform:
   m_ObjectHideFlags: 0

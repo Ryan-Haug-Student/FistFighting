@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : NetworkBehaviour
 {
@@ -17,6 +18,8 @@ public class PlayerHealth : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         currentHealth = maxHealth;
+
+        SceneManager.activeSceneChanged += sceneChange;
     }
 
     private void Update()
@@ -37,6 +40,13 @@ public class PlayerHealth : NetworkBehaviour
             DeathServerRpc();
     }
 
+    void sceneChange (Scene arg0, Scene arg1)
+    {
+        if (!IsOwner) return;
+
+        RespawnServerRpc();
+    }
+
     //networking
 
     [ServerRpc]
@@ -48,6 +58,8 @@ public class PlayerHealth : NetworkBehaviour
     [ServerRpc]
     private void RespawnServerRpc()
     {
+        transform.position = new Vector3(0, 0, 0);
+
         RespawnClientRpc();
     }
 
@@ -70,15 +82,19 @@ public class PlayerHealth : NetworkBehaviour
     {
         isDead = false;
         currentHealth = maxHealth;
-        wm.weapon.currentCount = wm.weapon.maxCount;
+
+        if (wm.enabled)
+        {
+            wm.weapon.currentCount = wm.weapon.maxCount;
+            wm.weapon.enabled = true;
+        }
 
         transform.position = new Vector3(0, 0, 0);
-
         playerObj.SetActive(true);
         gh.enabled = true;
-        wm.weapon.enabled = true;
         pc.enabled = true;
         rb.useGravity = true;
+        rb.linearVelocity = Vector3.zero;
 
         pm.enabled = true;
     }

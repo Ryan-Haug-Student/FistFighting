@@ -1,6 +1,7 @@
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LocalUIManager : NetworkBehaviour
@@ -10,6 +11,7 @@ public class LocalUIManager : NetworkBehaviour
     public TMP_Text healthText;
     public TMP_Text consText;
     public TMP_Text sensText;
+    public TMP_Text timeText;
     public Slider slider;
 
     public GameObject pauseMenu;
@@ -18,6 +20,8 @@ public class LocalUIManager : NetworkBehaviour
     public PlayerHealth ph;
     public PlayerCamera pc;
     public WeaponManager wm;
+
+    private GameManager gm;
 
     public override void OnNetworkSpawn()
     {
@@ -29,12 +33,23 @@ public class LocalUIManager : NetworkBehaviour
 
         slider.value = pc.sens / 1000;
         sensText.text = $"{pc.sens / 1000}";
-        
+
+        SceneManager.sceneLoaded += getvar; 
+    }
+
+    void getvar(Scene a, LoadSceneMode b)
+    {
+        try
+        {
+            gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
+        catch { Debug.Log("oops"); }
     }
 
     private void Update()
     {
-        UpdateOnScreen();
+        if (gm && gm.IsGameActive())
+            UpdateOnScreen();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -48,6 +63,7 @@ public class LocalUIManager : NetworkBehaviour
         stateText.text = $"State   | {pm.state}";
         healthText.text = $"Health | {ph.currentHealth}/{ph.maxHealth}";
         consText.text = $"Consumables | {wm.weapon.currentCount}/{wm.weapon.maxCount}";
+        timeText.text = $"Seconds Remaining - {gm.secondsLeft.Value}";
     }
 
     // BUTTON FUNCTIONS ===========================================================================

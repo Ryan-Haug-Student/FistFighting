@@ -27,6 +27,12 @@ public class MainMenuButtons : MonoBehaviour
         NetworkManager.Singleton.StartClient();
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+        UnityEditor.EditorApplication.isPlaying = false;
+    }
+
     // Helper Funcs
 
     private string getLocalIp()

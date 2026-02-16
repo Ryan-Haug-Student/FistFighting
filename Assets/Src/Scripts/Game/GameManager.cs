@@ -1,5 +1,7 @@
 using Unity.Netcode;
+using Unity.XR.OpenVR;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
@@ -14,26 +16,23 @@ public class GameManager : NetworkBehaviour
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server);
 
+    public NetworkVariable<int> secondsLeft = new NetworkVariable<int>(
+        0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+        );
+
     [Header("Player Management")]
     public static Transform[] spawnPoints;
 
-    private void Start()
+
+    public override void OnNetworkSpawn()
     {
-        Debug.Log("GameManager Start");
+        StartGameServerRpc();
     }
 
     private void Update()
     {
-        // Input handled on ALL clients
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            if (IsServer)
-                StartGame();
-            else
-                StartGameServerRpc();
-
-        }
-
         // Only server runs game timer logic
         if (!IsServer)
             return;
@@ -41,7 +40,7 @@ public class GameManager : NetworkBehaviour
         if (gameActive.Value)
         {
             timer -= Time.deltaTime;
-
+            secondsLeft.Value = (int)timer;
             if (timer <= 0f)
             {
                 StopGame();
@@ -73,7 +72,7 @@ public class GameManager : NetworkBehaviour
         OnGameStoppedClientRpc();
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc]
     private void StartGameServerRpc()
     {
         StartGame();
@@ -90,6 +89,8 @@ public class GameManager : NetworkBehaviour
     private void OnGameStoppedClientRpc()
     {
         Debug.Log("Game Ended");
+
+        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         // Disable controls, show scoreboard, etc.
     }
 
