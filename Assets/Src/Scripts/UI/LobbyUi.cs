@@ -7,22 +7,19 @@ public class LobbyUi : MonoBehaviour
     [Header("refs")]
     public GameObject hostPanel;
 
-    private void Update()
+    void Start()
     {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            StartGame();
-        }
-    }
+        Debug.Log("Is host? " + NetworkManager.Singleton.IsHost);
+        hostPanel.SetActive(NetworkManager.Singleton.IsHost);
 
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    
     public void StartGame()
     {
         NetworkManager.Singleton.SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
     }
-
-
-
-
 
     //networking ==================================================================================
 }

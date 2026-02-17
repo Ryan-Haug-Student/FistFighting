@@ -37,6 +37,12 @@ public class LocalUIManager : NetworkBehaviour
         SceneManager.sceneLoaded += getvar; 
     }
 
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     void getvar(Scene a, LoadSceneMode b)
     {
         try
@@ -48,7 +54,7 @@ public class LocalUIManager : NetworkBehaviour
 
     private void Update()
     {
-        if (gm && gm.IsGameActive())
+        if (gm)
             UpdateOnScreen();
 
         if (Input.GetKeyDown(KeyCode.Escape))

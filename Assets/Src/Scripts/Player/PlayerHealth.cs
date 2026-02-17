@@ -59,6 +59,7 @@ public class PlayerHealth : NetworkBehaviour
     private void RespawnServerRpc()
     {
         transform.position = new Vector3(0, 0, 0);
+        rb.linearVelocity = Vector3.zero;
 
         RespawnClientRpc();
     }
