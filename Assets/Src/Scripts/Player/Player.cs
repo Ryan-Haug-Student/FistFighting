@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,11 +12,13 @@ public class Player : NetworkBehaviour
     public Melee mele;
     public SideArm sidearm;
     public Rifle rif;
-    public GameObject ui;
 
     public override void OnNetworkSpawn()
     {
+        if (!IsOwner) return;
+
         SceneManager.sceneLoaded += SceneChange;
+        StartCoroutine(sceneLoaded());
     }
 
     void SceneChange(Scene arg1, LoadSceneMode arg2)
@@ -26,6 +29,14 @@ public class Player : NetworkBehaviour
             InactiveServerRpc();
         else
             ActiveServerRpc();
+    }
+
+    IEnumerator sceneLoaded()
+    {
+        while (GameUi.Instance == null)
+            yield return null;
+
+        GameUi.Instance.BindToPlayer(gameObject);
     }
 
     [ServerRpc]
@@ -45,7 +56,6 @@ public class Player : NetworkBehaviour
         mele.enabled = true;
         sidearm.enabled = true;
         rif.enabled = true;
-        ui.SetActive(true);
     }
 
     [ServerRpc]
@@ -65,6 +75,5 @@ public class Player : NetworkBehaviour
         mele.enabled = false;
         sidearm.enabled = false;
         rif.enabled = false;
-        ui.SetActive(false);
     }
 }

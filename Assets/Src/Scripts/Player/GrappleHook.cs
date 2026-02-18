@@ -10,7 +10,6 @@ public class GrappleHook : NetworkBehaviour
     public Transform grapplePointVisual;
     public LineRenderer lineRenderer;
     public Rigidbody playerRb;
-    public Image crosshair;
 
     [Header("Grapple Settings")]
     public float maxDistance;
@@ -53,9 +52,6 @@ public class GrappleHook : NetworkBehaviour
             lineRenderer.SetPosition(0, grapplePointVisual.position);
             lineRenderer.SetPosition(1, grapplePoint);
         }
-
-        crosshair.color = Physics.Raycast(camTransform.position, camTransform.forward, maxDistance, whatIsGround) ?
-            Color.green : Color.red;
     }
 
     void UpdateOtherClientLine()
