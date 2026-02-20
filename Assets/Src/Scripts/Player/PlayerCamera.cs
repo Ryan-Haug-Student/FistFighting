@@ -48,7 +48,7 @@ public class PlayerCamera : NetworkBehaviour
         yRotation += mouseX;
 
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90, 90);
+        xRotation = Mathf.Clamp(xRotation, -90, 85);
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
