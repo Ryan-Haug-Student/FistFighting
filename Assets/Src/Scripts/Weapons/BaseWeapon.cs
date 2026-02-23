@@ -93,7 +93,8 @@ public abstract class BaseWeapon : NetworkBehaviour
 
             if (((1 << hit.collider.gameObject.layer) & whatIsPlayer) != 0)
             {
-                DamagePlayerServerRpc(hit.transform.gameObject.GetComponentInParent<NetworkObject>().NetworkObjectId);
+                if (hit.transform.gameObject != transform.gameObject)
+                    DamagePlayerServerRpc(hit.transform.gameObject.GetComponentInParent<NetworkObject>().NetworkObjectId);
             }
         }
         else
