@@ -124,7 +124,7 @@ public class Movement : NetworkBehaviour
             MS.crouching => crouchSpeed,
             MS.grappling => grappleSpeed,
 
-            _ => moveSpeed,
+            _ => moveSpeed
         };
 
         //set drag to slide drag if sliding, or add ground drag if grounded

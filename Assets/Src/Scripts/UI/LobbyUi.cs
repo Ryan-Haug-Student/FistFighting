@@ -1,11 +1,15 @@
+using System.Runtime.InteropServices.WindowsRuntime;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LobbyUi : MonoBehaviour
 {
     [Header("refs")]
     public GameObject hostPanel;
+    public TMP_Dropdown mapSel;
 
     void Start()
     {
@@ -18,8 +22,17 @@ public class LobbyUi : MonoBehaviour
     
     public void StartGame()
     {
-        NetworkManager.Singleton.SceneManager.LoadScene("TestScene", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene(getMap(), LoadSceneMode.Single);
     }
 
-    //networking ==================================================================================
+    private string getMap()
+    {
+        return mapSel.value switch {
+            0 => "Castle",
+            1 => "City",
+            2 => "placeholder",
+
+            _ => "Castle"
+        };
+    }
 }
