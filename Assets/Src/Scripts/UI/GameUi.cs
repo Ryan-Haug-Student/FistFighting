@@ -76,8 +76,8 @@ public class GameUi : MonoBehaviour
         healthBarFill.transform.localScale = new Vector2((float)(ph.currentHealth / (float)ph.maxHealth), 1);
         healthBarFill.transform.localPosition = new Vector2(-175 * (1 - (float)(ph.currentHealth / (float)ph.maxHealth)), 0);
 
-        weaponTxt.text = $"{wm.weapon.GetType().Name}";
-        weaponCountTxt.text = $"{wm.weapon.currentCount}/{wm.weapon.maxCount}";
+        weaponTxt.text = wm.weapon ? wm.weapon.GetType().Name : "err 404";
+        weaponCountTxt.text = wm.weapon ? $"{wm.weapon.currentCount}/{wm.weapon.maxCount}" : "err 404";
 
         croshair.color = Physics.Raycast(camTransform.position, camTransform.forward, 12, whatIsGround) ?
             Color.green : Color.red;

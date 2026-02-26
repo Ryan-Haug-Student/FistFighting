@@ -28,6 +28,7 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        if (!IsOwner) return;
         StartGameServerRpc();
     }
 

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3609627484
+  GlobalObjectIdHash: 1299227680
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -79,7 +79,6 @@ MonoBehaviour:
   mele: {fileID: 5277477367768286173}
   sidearm: {fileID: 2466424775364428984}
   rif: {fileID: 5720480364502546791}
-  ui: {fileID: 0}
 --- !u!1 &2564846959233162018
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,6 +680,7 @@ MonoBehaviour:
   - {fileID: 2466424775364428984}
   - {fileID: 5720480364502546791}
   weapon: {fileID: 0}
+  ph: {fileID: 4870810734999813740}
 --- !u!114 &5277477367768286173
 MonoBehaviour:
   m_ObjectHideFlags: 0

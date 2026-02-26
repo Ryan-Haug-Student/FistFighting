@@ -18,7 +18,6 @@ public class Player : NetworkBehaviour
         if (!IsOwner) return;
 
         SceneManager.sceneLoaded += SceneChange;
-        StartCoroutine(sceneLoaded());
     }
 
     void SceneChange(Scene arg1, LoadSceneMode arg2)
@@ -29,6 +28,8 @@ public class Player : NetworkBehaviour
             InactiveServerRpc();
         else
             ActiveServerRpc();
+
+        StartCoroutine(sceneLoaded());
     }
 
     IEnumerator sceneLoaded()

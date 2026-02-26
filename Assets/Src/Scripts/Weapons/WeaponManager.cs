@@ -5,6 +5,8 @@ public class WeaponManager : MonoBehaviour
     public BaseWeapon[] equiped = new BaseWeapon[3];
     public BaseWeapon weapon;
 
+    public PlayerHealth ph;
+
     private void Start()
     {
         UpdateEquied(0);
@@ -12,22 +14,18 @@ public class WeaponManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("1"))
+        if (!ph.isDead)
         {
-            UpdateEquied(0);
-        }
-        if (Input.GetKeyDown("2"))
-        {
-            UpdateEquied(1);
-
-        }
-        if (Input.GetKeyDown("3"))
-        {
-            UpdateEquied(2);
+            if (Input.GetKeyDown("1"))
+                UpdateEquied(0);
+            if (Input.GetKeyDown("2"))
+                UpdateEquied(1);
+            if (Input.GetKeyDown("3"))
+                UpdateEquied(2);
         }
     }
 
-    void UpdateEquied(int target)
+    public void UpdateEquied(int target)
     {
         foreach (var w in equiped)
         {

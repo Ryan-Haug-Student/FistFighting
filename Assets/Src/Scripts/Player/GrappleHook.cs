@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -97,6 +98,8 @@ public class GrappleHook : NetworkBehaviour
 
     void StopGrapple()
     {
+        if (!IsOwner) return;
+
         if (spring) Destroy(spring);
 
         lineRenderer.enabled = false;

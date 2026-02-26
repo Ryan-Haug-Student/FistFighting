@@ -22,7 +22,13 @@ public class PlayerHealth : NetworkBehaviour
 
         currentHealth = maxHealth;
 
-        SceneManager.activeSceneChanged += sceneChange;
+        NetworkManager.SceneManager.OnLoadComplete += sceneChange;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsOwner)
+            NetworkManager.SceneManager.OnLoadComplete -= sceneChange;
     }
 
     private void Update()
@@ -43,9 +49,11 @@ public class PlayerHealth : NetworkBehaviour
             DeathServerRpc();
     }
 
-    void sceneChange (Scene arg0, Scene arg1)
+    void sceneChange(ulong clientId, string sceneName, LoadSceneMode mode)
     {
         if (!IsOwner) return;
+
+        if (clientId != OwnerClientId) return;
 
         RespawnServerRpc();
     }
@@ -61,10 +69,13 @@ public class PlayerHealth : NetworkBehaviour
     [ServerRpc]
     private void RespawnServerRpc()
     {
-        transform.position = new Vector3(0, 0, 0);
         rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        Vector3 spawnPos = SpawnPointManager.instance.getSpawnPoint().position;
 
-        RespawnClientRpc();
+        rb.MovePosition(spawnPos);
+
+        RespawnClientRpc(spawnPos);
     }
 
     [ClientRpc]
@@ -75,30 +86,34 @@ public class PlayerHealth : NetworkBehaviour
 
         playerObj.SetActive(false);
         gh.enabled = false;
-        wm.weapon.enabled = false;
+        if (wm.weapon)
+            wm.weapon.enabled = false;
         pc.enabled = false;
 
         rb.useGravity = false;
     }
 
     [ClientRpc]
-    private void RespawnClientRpc()
+    private void RespawnClientRpc(Vector3 spawnPos)
     {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.MovePosition(spawnPos);
+
         isDead = false;
         currentHealth = maxHealth;
 
-        if (wm.enabled)
+        if (wm && wm.enabled && wm.weapon)
         {
-            wm.weapon.currentCount = wm.weapon.maxCount;
+            wm.UpdateEquied(0);
             wm.weapon.enabled = true;
+            wm.weapon.currentCount = wm.weapon.maxCount;
         }
 
-        transform.position = new Vector3(0, 0, 0);
         playerObj.SetActive(true);
         gh.enabled = true;
         pc.enabled = true;
         rb.useGravity = true;
-        rb.linearVelocity = Vector3.zero;
 
         pm.enabled = true;
     }
