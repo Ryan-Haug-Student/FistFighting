@@ -30,7 +30,7 @@ public class LobbyUi : MonoBehaviour
         return mapSel.value switch {
             0 => "Castle",
             1 => "City",
-            2 => "placeholder",
+            2 => "Dimension",
 
             _ => "Castle"
         };

@@ -28,7 +28,7 @@ public class GameUi : MonoBehaviour
     public LayerMask whatIsGround;
 
     [Header("Misc")]
-    public static GameUi Instance; 
+    public static GameUi Instance;
     public GameManager gm;
 
     private bool binded = false;
@@ -49,7 +49,7 @@ public class GameUi : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
             TogglePauseMenu();
 
-        if (binded)
+        if (binded && Application.isPlaying)
             UpdateStats();
     }
 

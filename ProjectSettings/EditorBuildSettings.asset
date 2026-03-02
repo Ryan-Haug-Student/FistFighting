@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/City.unity
     guid: d4c088882fbda72499110bba38c3a54f
+  - enabled: 1
+    path: Assets/Scenes/Dimension.unity
+    guid: 3b54e7a2a2085194fb91bf96cdad4850
   m_configObjects:
+    com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: 7fa503a5dc453154f9687532df047f59, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: a22ec6fb6033703479edbeaa4acd5ab8, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 9fcef68bd18bfe64eb57268f41cf6431, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
