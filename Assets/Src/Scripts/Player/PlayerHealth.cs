@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,6 +30,12 @@ public class PlayerHealth : NetworkBehaviour
     {
         if (IsOwner)
             NetworkManager.SceneManager.OnLoadComplete -= sceneChange;
+    }
+
+    public void Respawn()
+    {
+        if (!IsOwner) return;
+        RespawnServerRpc();
     }
 
     private void Update()

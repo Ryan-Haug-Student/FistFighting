@@ -1,5 +1,7 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameUi : MonoBehaviour
@@ -116,5 +118,11 @@ public class GameUi : MonoBehaviour
     {
         pc.sens = sensSlider.value * 1000;
         sensTxt.text = $"Sensitivity - {Mathf.Round(sensSlider.value * 100) / 10}";
+    }
+
+    public void Quit()
+    {
+        NetworkManager.Singleton.Shutdown();
+        Application.Quit(); UnityEditor.EditorApplication.isPlaying = false;
     }
 }
