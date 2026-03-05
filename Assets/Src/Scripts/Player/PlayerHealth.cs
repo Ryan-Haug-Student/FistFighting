@@ -10,12 +10,16 @@ public class PlayerHealth : NetworkBehaviour
     public int currentHealth;
     public bool isDead;
 
+    public int Kills;
+    public int Deaths;
+
     public GameObject playerObj;
     public Movement pm;
     public GrappleHook gh;
     public WeaponManager wm;
     public Rigidbody rb;
     public PlayerCamera pc;
+    public GameObject models;
 
     public override void OnNetworkSpawn()
     {
@@ -36,6 +40,7 @@ public class PlayerHealth : NetworkBehaviour
     {
         if (!IsOwner) return;
         RespawnServerRpc();
+        Deaths++;
     }
 
     private void Update()
@@ -48,11 +53,9 @@ public class PlayerHealth : NetworkBehaviour
 
     public void TryTakeDamage(int damage)
     {
-        if (!IsOwner) return;
-
         currentHealth -= damage;
 
-        if (currentHealth <= 0 && !isDead)
+        if (currentHealth <= 0 && !isDead && IsOwner)
             DeathServerRpc();
     }
 
@@ -89,7 +92,9 @@ public class PlayerHealth : NetworkBehaviour
     private void DeathClientRpc()
     {
         isDead = true;
+        models.SetActive(false);
         pm.enabled = false;
+        Deaths++;
 
         playerObj.SetActive(false);
         gh.enabled = false;
@@ -118,6 +123,7 @@ public class PlayerHealth : NetworkBehaviour
         }
 
         playerObj.SetActive(true);
+        models.SetActive(true);
         gh.enabled = true;
         pc.enabled = true;
         rb.useGravity = true;

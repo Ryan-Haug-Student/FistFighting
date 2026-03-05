@@ -731,12 +731,15 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   isDead: 0
+  Kills: 0
+  Deaths: 0
   playerObj: {fileID: 6080579650166416577}
   pm: {fileID: 8260941788798641865}
   gh: {fileID: 5498987989849797982}
   wm: {fileID: 2863954828408054971}
   rb: {fileID: 7065810906720383469}
   pc: {fileID: 5223607378077221537}
+  models: {fileID: 4286778860981758403}
 --- !u!114 &2863954828408054971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,6 +789,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   pm: {fileID: 8260941788798641865}
+  phealth: {fileID: 4870810734999813740}
   lr: {fileID: 282699776005832678}
 --- !u!114 &2466424775364428984
 MonoBehaviour:
@@ -818,6 +822,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   pm: {fileID: 8260941788798641865}
+  phealth: {fileID: 4870810734999813740}
   lr: {fileID: 282699776005832678}
 --- !u!114 &5720480364502546791
 MonoBehaviour:
@@ -850,6 +855,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   pm: {fileID: 8260941788798641865}
+  phealth: {fileID: 4870810734999813740}
   lr: {fileID: 282699776005832678}
 --- !u!1 &6080579650166416577
 GameObject:

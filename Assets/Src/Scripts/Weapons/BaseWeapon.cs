@@ -31,6 +31,7 @@ public abstract class BaseWeapon : NetworkBehaviour
     public Transform handPos;
     public LayerMask whatIsPlayer;
     public Movement pm;
+    public PlayerHealth phealth;
     public LineRenderer lr;
 
     private void Start()
@@ -141,7 +142,13 @@ public abstract class BaseWeapon : NetworkBehaviour
     private void DamagePlayerClientRpc(ulong targetReference, int damageAmount)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetReference, out NetworkObject networkObject))
-            networkObject.gameObject.GetComponentInChildren<PlayerHealth>().TryTakeDamage(damage);
+        {
+            PlayerHealth ph = networkObject.gameObject.GetComponentInChildren<PlayerHealth>();
+            ph.TryTakeDamage(damage);
+
+            if (ph.currentHealth <= 0)
+                phealth.Kills++;
+        }
     }
 
     [ServerRpc]

@@ -8,11 +8,7 @@ public class GameUi : MonoBehaviour
 {
     [Header("UI Refs")]
     public Image healthBarFill;
-    public TMP_Text weaponTxt;
-    public TMP_Text weaponCountTxt;
-    public TMP_Text timeTxt;
-    public TMP_Text speedStateTxt;
-    public TMP_Text scoreTxt;
+    public TMP_Text weaponTxt, weaponCountTxt, timeTxt, speedStateTxt, scoreTxt;
 
     [Header("Pause Menu")]
     public GameObject pauseMenu;
@@ -87,7 +83,7 @@ public class GameUi : MonoBehaviour
 
         speedStateTxt.text = $"{Mathf.Round(pm.rb.linearVelocity.magnitude * 10) / 10} - {pm.state}";
 
-        scoreTxt.text = $"K/O - 0";
+        scoreTxt.text = $"KD - {ph.Kills}/{ph.Deaths}";
         timeTxt.text = $"{gm.secondsLeft.Value}s Remain";
     }
 
