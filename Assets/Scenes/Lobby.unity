@@ -1160,7 +1160,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 592876452}
+  m_Mesh: {fileID: 799363440}
 --- !u!33 &605671480
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -3353,7 +3353,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1771279063}
+  m_Mesh: {fileID: 270861458}
 --- !u!33 &966253229
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -4849,7 +4849,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1452369948}
+  m_Mesh: {fileID: 592876452}
 --- !u!33 &1013159880
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -6118,7 +6118,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1452369948}
+  m_Mesh: {fileID: 1147600193}
 --- !u!33 &1103960795
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -7615,9 +7615,6 @@ MonoBehaviour:
   m_MultiSelect: 0
   m_Options:
     m_Options:
-    - m_Text: Standarrd
-      m_Image: {fileID: 0}
-      m_Color: {r: 1, g: 1, b: 1, a: 1}
     - m_Text: Clown
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -7630,10 +7627,16 @@ MonoBehaviour:
     - m_Text: Doctor
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
+    - m_Text: Ghost
+      m_Image: {fileID: 0}
+      m_Color: {r: 1, g: 1, b: 1, a: 1}
     - m_Text: Knight
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
     - m_Text: Nurse
+      m_Image: {fileID: 0}
+      m_Color: {r: 1, g: 1, b: 1, a: 1}
+    - m_Text: Josh
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
     - m_Text: Pilgrim
@@ -7656,7 +7659,19 @@ MonoBehaviour:
       m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2016836514}
+        m_TargetAssemblyTypeName: LobbyUi, Assembly-CSharp
+        m_MethodName: ChangeSkin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &1174643641
 MonoBehaviour:
@@ -10081,7 +10096,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1771279063}
+  m_Mesh: {fileID: 1452369948}
 --- !u!33 &1687916462
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -12072,6 +12087,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LobbyUi
   hostPanel: {fileID: 2122185465}
   mapSel: {fileID: 725043103}
+  skinSel: {fileID: 1174643640}
 --- !u!1 &2046810956
 GameObject:
   m_ObjectHideFlags: 0
@@ -12129,7 +12145,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Standarrd
+  m_text: Clown
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e627fa9ce612b7448b0d4e4af5a8f0c6, type: 2}
   m_sharedMaterial: {fileID: 74717144782929269, guid: e627fa9ce612b7448b0d4e4af5a8f0c6, type: 2}
