@@ -14,7 +14,7 @@ public class WeaponManager : MonoBehaviour
 
     private void Update()
     {
-        if (!ph.isDead)
+        if (!ph.isDead && !weapon.isRefilling)
         {
             if (Input.GetKeyDown("1"))
                 UpdateEquied(0);

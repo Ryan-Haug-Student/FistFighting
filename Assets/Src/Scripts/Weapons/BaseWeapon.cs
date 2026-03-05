@@ -26,6 +26,9 @@ public abstract class BaseWeapon : NetworkBehaviour
 
     public bool isRefilling;
 
+    [Header("sounds")]
+    public AudioSource weaponNoise, reload;
+
     [Header("refs")]
     public Camera playerCam;
     public Transform handPos;
@@ -43,7 +46,7 @@ public abstract class BaseWeapon : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (fullAuto )
+        if (fullAuto)
             if (Input.GetKey(KeyCode.Mouse0))
                 TryFiring();
             else { }
@@ -62,8 +65,9 @@ public abstract class BaseWeapon : NetworkBehaviour
         else if (currentCount <= 0)
             TryRefill();
 
-            currentCount--;
+        currentCount--;
         canAction = false;
+        MakeNoiseServerRpc(1);
 
         ApplyDispersion();
         FireRayCast();
@@ -86,7 +90,7 @@ public abstract class BaseWeapon : NetworkBehaviour
         dir += playerCam.transform.up * Random.Range(-actualDispersion, actualDispersion) * 0.01f;
         dir.Normalize();
 
-        
+
 
         if (Physics.Raycast(playerCam.transform.position, dir, out RaycastHit hit, maxFireDist))
         {
@@ -123,12 +127,42 @@ public abstract class BaseWeapon : NetworkBehaviour
     private IEnumerator Refill()
     {
         isRefilling = true;
+        MakeNoiseServerRpc(0);
 
         yield return new WaitForSeconds(refilTime);
 
         currentCount = maxCount;
         canAction = true;
         isRefilling = false;
+        MakeNoiseServerRpc(0);
+    }
+
+    [ServerRpc]
+    public void MakeNoiseServerRpc(int noise)
+    {
+        MakeNoiseClientRpc(noise);
+    }
+
+    [ClientRpc]
+    public void MakeNoiseClientRpc(int noise)
+    {
+        switch (noise)
+        {
+            case 1:
+                {
+                    weaponNoise.Play();
+                    break;
+                }
+
+            case 0:
+                {
+                    if (!reload.isPlaying)
+                        reload.Play();
+                    else
+                        reload.Stop();
+                    break;
+                }
+        }
     }
 
 
