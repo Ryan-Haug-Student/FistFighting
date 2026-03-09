@@ -49,11 +49,6 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    public static Transform GetSpawnPoint()
-    {
-        return spawnPoints[Random.Range(0, spawnPoints.Length)];
-    }
-
     public void StartGame()
     {
         if (!IsServer) return;

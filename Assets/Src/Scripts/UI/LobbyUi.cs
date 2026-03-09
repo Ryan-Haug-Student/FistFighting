@@ -11,6 +11,7 @@ public class LobbyUi : MonoBehaviour
     public GameObject hostPanel;
     public TMP_Dropdown mapSel, skinSel;
 
+#nullable enable
     private ModelManager? localModelManager = null;
 
     void Start()
@@ -32,6 +33,7 @@ public class LobbyUi : MonoBehaviour
         if (localModelManager == null)
             FindLocalPlayer();
 
+#pragma warning disable CS8602 // wont be null trust me bro
         localModelManager.RequestModelChange(skinSel.value);
     }
 
