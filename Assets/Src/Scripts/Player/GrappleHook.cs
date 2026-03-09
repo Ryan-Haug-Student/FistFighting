@@ -11,6 +11,7 @@ public class GrappleHook : NetworkBehaviour
     public Transform grapplePointVisual;
     public LineRenderer lineRenderer;
     public Rigidbody playerRb;
+    public AudioSource sound;
 
     [Header("Grapple Settings")]
     public float maxDistance;
@@ -57,7 +58,10 @@ public class GrappleHook : NetworkBehaviour
 
     void UpdateOtherClientLine()
     {
-        if (!isGrappling) return;
+        if (!isGrappling)
+        {
+            return;
+        }
 
         lineRenderer.SetPosition(0, grapplePointVisual.position);
         lineRenderer.SetPosition(1, networkGrapplePoint);
@@ -126,8 +130,12 @@ public class GrappleHook : NetworkBehaviour
     {
         isGrappling = enabled;
         networkGrapplePoint = point;
+        sound.Play();
 
         if (!enabled)
+        {
+            sound.Stop();
             lineRenderer.enabled = false;
+        }
     }
 }

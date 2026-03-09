@@ -77,11 +77,12 @@ public class GameUi : MonoBehaviour
         weaponTxt.text = wm.weapon ? wm.weapon.GetType().Name : "err 404";
         weaponCountTxt.text = wm.weapon ? $"{wm.weapon.currentCount}/{wm.weapon.maxCount}" : "err 404";
 
-        if (binded && Application.isPlaying)
+        if (camTransform)
             croshair.color = Physics.Raycast(camTransform.position, camTransform.forward, 12, whatIsGround) ?
                 Color.green : Color.red;
 
-        speedStateTxt.text = $"{Mathf.Round(pm.rb.linearVelocity.magnitude * 10) / 10} - {pm.state}";
+        if (pm)
+            speedStateTxt.text = $"{Mathf.Round(pm.rb.linearVelocity.magnitude * 10) / 10} - {pm.state}";
 
         scoreTxt.text = $"KD - {ph.Kills}/{ph.Deaths}";
         timeTxt.text = $"{gm.secondsLeft.Value}s Remain";
