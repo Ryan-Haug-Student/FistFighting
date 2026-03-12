@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
 public class WeaponManager : NetworkBehaviour
@@ -8,9 +9,10 @@ public class WeaponManager : NetworkBehaviour
 
     public PlayerHealth ph;
     public Animator animator;
+    public NetworkAnimator networkAnimator;
     string trigger = "";
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
         UpdateEquied(0);
@@ -29,8 +31,16 @@ public class WeaponManager : NetworkBehaviour
                 UpdateEquied(2);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-            animator.SetTrigger(trigger);
+        if (weapon.fullAuto)
+        {
+            if (Input.GetKey(KeyCode.Mouse0) && weapon.canAction && weapon.currentCount > 0 && !weapon.isRefilling)
+                networkAnimator.SetTrigger(trigger);
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0) && weapon.canAction && weapon.currentCount > 0 && !weapon.isRefilling)
+                networkAnimator.SetTrigger(trigger);
+        }
     }
 
     public void UpdateEquied(int target)
@@ -40,16 +50,34 @@ public class WeaponManager : NetworkBehaviour
             if (equiped[target] == w)
             {
                 w.enabled = true;
-                trigger = w.GetType().Name switch 
-                {
-                   "Melee" => "Melee",
-
-                    _ => "Melee"
-                };
+                AnimHandler(w);
             }
             else 
                 w.enabled = false;
         }
         weapon = equiped[target];
+    }
+
+    private void AnimHandler(BaseWeapon w)
+    {
+        animator.ResetTrigger("MeleeEquip");
+        animator.ResetTrigger("SideArmEquip");
+        animator.ResetTrigger("RifleEquip");
+
+        switch (w.GetType().Name) 
+        {
+            case "Melee":
+                trigger = "Melee";
+                networkAnimator.SetTrigger("MeleeEquip");
+                break;
+            case "SideArm":
+                trigger = "PistolShoot";
+                networkAnimator.SetTrigger("SideArmEquip");
+                break;
+            case "Rifle":
+                trigger = "RifleShoot";
+                networkAnimator.SetTrigger("RifleEquip");
+                break;
+        }
     }
 }
