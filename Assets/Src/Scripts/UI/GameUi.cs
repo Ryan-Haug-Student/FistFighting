@@ -9,6 +9,7 @@ public class GameUi : MonoBehaviour
     [Header("UI Refs")]
     public Image healthBarFill;
     public TMP_Text weaponTxt, weaponCountTxt, timeTxt, speedStateTxt, scoreTxt;
+    public GameObject deathPanel;
 
     [Header("Pause Menu")]
     public GameObject pauseMenu;
@@ -44,7 +45,7 @@ public class GameUi : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !ph.isDead)
             TogglePauseMenu();
 
         if (binded && Application.isPlaying)
@@ -86,6 +87,11 @@ public class GameUi : MonoBehaviour
 
         scoreTxt.text = $"KD - {ph.Kills}/{ph.Deaths}";
         timeTxt.text = $"{gm.secondsLeft.Value}s Remain";
+
+        if (ph.isDead)
+            deathPanel.SetActive(true);
+        else
+            deathPanel.SetActive(false);
     }
 
     public void TogglePauseMenu()

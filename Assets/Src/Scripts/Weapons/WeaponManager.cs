@@ -31,16 +31,17 @@ public class WeaponManager : NetworkBehaviour
                 UpdateEquied(2);
         }
 
-        if (weapon.fullAuto)
-        {
-            if (Input.GetKey(KeyCode.Mouse0) && weapon.canAction && weapon.currentCount > 0 && !weapon.isRefilling)
-                networkAnimator.SetTrigger(trigger);
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && weapon.canAction && weapon.currentCount > 0 && !weapon.isRefilling)
-                networkAnimator.SetTrigger(trigger);
-        }
+        if (!ph.isDead)
+            if (weapon.fullAuto)
+            {
+                if (Input.GetKey(KeyCode.Mouse0) && weapon.canAction && weapon.currentCount > 0 && !weapon.isRefilling)
+                    networkAnimator.SetTrigger(trigger);
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Mouse0) && weapon.canAction && weapon.currentCount > 0 && !weapon.isRefilling)
+                    networkAnimator.SetTrigger(trigger);
+            }
     }
 
     public void UpdateEquied(int target)
