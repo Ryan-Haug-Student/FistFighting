@@ -65,7 +65,7 @@ public class GameUi : MonoBehaviour
         camTransform = pc.gameObject.transform;
 
         sensSlider.value = pc.sens / 1000;
-        sensTxt.text = $"{pc.sens / 1000}";
+        sensTxt.text = $"senisitivey - {pc.sens / 1000}";
 
         binded = true;
     }

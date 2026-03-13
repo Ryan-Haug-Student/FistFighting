@@ -115,18 +115,18 @@ public class PlayerHealth : NetworkBehaviour
         isDead = false;
         currentHealth = maxHealth;
 
+        playerObj.SetActive(true);
+        models.SetActive(true);
+        gh.enabled = true;
+        pc.enabled = true;
+        rb.useGravity = true;
+
         if (wm && wm.enabled && wm.weapon)
         {
             wm.UpdateEquied(0);
             wm.weapon.enabled = true;
             wm.weapon.currentCount = wm.weapon.maxCount;
         }
-
-        playerObj.SetActive(true);
-        models.SetActive(true);
-        gh.enabled = true;
-        pc.enabled = true;
-        rb.useGravity = true;
 
         pm.enabled = true;
     }

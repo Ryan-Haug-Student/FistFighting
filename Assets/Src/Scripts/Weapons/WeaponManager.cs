@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -11,10 +13,17 @@ public class WeaponManager : NetworkBehaviour
     public Animator animator;
     public NetworkAnimator networkAnimator;
     string trigger = "";
+    string reloadTrigger = "";
 
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
+        StartCoroutine(updateEquipedStart());
+    }
+
+    IEnumerator updateEquipedStart()
+    {
+        yield return new WaitForSeconds(.2f);
         UpdateEquied(0);
     }
 
@@ -36,12 +45,19 @@ public class WeaponManager : NetworkBehaviour
             {
                 if (Input.GetKey(KeyCode.Mouse0) && weapon.canAction && weapon.currentCount > 0 && !weapon.isRefilling)
                     networkAnimator.SetTrigger(trigger);
+                if (Input.GetKeyUp(KeyCode.Mouse0))
+                    networkAnimator.ResetTrigger(trigger);
             }
             else
             {
                 if (Input.GetKeyDown(KeyCode.Mouse0) && weapon.canAction && weapon.currentCount > 0 && !weapon.isRefilling)
                     networkAnimator.SetTrigger(trigger);
             }
+
+        if (Input.GetKeyDown(KeyCode.R) && !weapon.isRefilling & !ph.isDead)
+            networkAnimator.SetTrigger(reloadTrigger);
+        if (weapon.isRefilling)
+            networkAnimator.ResetTrigger(reloadTrigger);
     }
 
     public void UpdateEquied(int target)
@@ -69,14 +85,17 @@ public class WeaponManager : NetworkBehaviour
         {
             case "Melee":
                 trigger = "Melee";
+                reloadTrigger = "";
                 networkAnimator.SetTrigger("MeleeEquip");
                 break;
             case "SideArm":
                 trigger = "PistolShoot";
+                reloadTrigger = "SideArmReload";
                 networkAnimator.SetTrigger("SideArmEquip");
                 break;
             case "Rifle":
                 trigger = "RifleShoot";
+                reloadTrigger = "RifleReload";
                 networkAnimator.SetTrigger("RifleEquip");
                 break;
         }
