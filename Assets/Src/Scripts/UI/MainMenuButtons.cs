@@ -30,7 +30,6 @@ public class MainMenuButtons : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
     }
 
     // Helper Funcs

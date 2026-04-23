@@ -126,6 +126,6 @@ public class GameUi : MonoBehaviour
     public void Quit()
     {
         NetworkManager.Singleton.Shutdown();
-        Application.Quit(); UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
     }
 }
